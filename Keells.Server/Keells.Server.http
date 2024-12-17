@@ -1,0 +1,6 @@
+@Keells.Server_HostAddress = http://localhost:5216
+
+GET {{Keells.Server_HostAddress}}/api/weatherforecast/
+Accept: application/json
+
+###
