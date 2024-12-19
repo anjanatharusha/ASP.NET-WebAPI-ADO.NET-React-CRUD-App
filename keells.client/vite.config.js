@@ -40,6 +40,10 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [plugin()],
+    //plugins: [react()],
+    optimizeDeps: {
+        include: ['@mui/material', '@mui/icons-material', '@mui/x-date-pickers'],
+    },
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -51,30 +55,26 @@ export default defineConfig({
                 target,
                 secure: false
             },
-            '^/department': {
+            '^/api/department': {
                 target,
                 secure: false
             },
-            '^/department/^': {
+            '^/api/department/^': {
                 target,
                 secure: false
             },
-            '^/employee': {
+            '^/api/employee': {
                 target,
                 secure: false
             },
-            '^/employee/^': {
+            '^/api/employee/^': {
                 target,
                 secure: false
             },
-            '^/employee/check-email': {
+            '^/api/employee/check-email': {
                 target,
                 secure: false
             }
-            //'/api': {
-            //    target, 
-            //    changeOrigin: true
-            //}
         },
         port: 9614,
         https: {
