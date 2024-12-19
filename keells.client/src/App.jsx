@@ -1,75 +1,99 @@
 import { useState } from 'react';
 import {
     Box,
-    Button,
+    CssBaseline,
+    Container,
+    Typography
 } from '@mui/material';
+import {
+    ThemeProvider,
+    createTheme
+} from '@mui/material/styles';
+import {
+    Routes,
+    Route,
+    Link
+} from 'react-router-dom';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import BusinessIcon from '@mui/icons-material/Business';
+import WorkIcon from '@mui/icons-material/Work';
 import DepartmentComponent from './Components/DepartmentComponent';
 import EmployeeComponent from './Components/EmployeeComponent';
-//import './App.css';
 
 function App() {
-    const [currentComponent, setCurrentComponent] = useState('department');
+    const theme = createTheme({ palette: 'light' });
+
+    const [navigation, setNavigation] = useState('employees');
+
+    const handleNavigation = (event, newNavigation) => {
+        if (newNavigation !== null) {
+            setNavigation(newNavigation);
+        }
+    };
+
     return (
-        <Box>
-            <Box display="flex" justifyContent="space-between" p={2}>
-                <Button variant="contained" onClick={() => setCurrentComponent('employee')}>
-                    Manage Employees
-                </Button>
-                <Button variant="contained" onClick={() => setCurrentComponent('department')}>
-                    Manage Departments
-                </Button>
-            </Box>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Container component="main" maxWidth="xl"> 
+                <Box
+                    sx={{
+                        marginTop: 5, 
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        minHeight: '100vh', 
+                        alignContent: 'center'
+                    }}
+                >
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        p={2}
+                        sx={{
+                            width: '100%',
+                            marginBottom: 7
+                        }}>
 
-            {currentComponent === 'employee' && <EmployeeComponent />}
-            {currentComponent === 'department' && <DepartmentComponent />}
-        </Box>
+                        <ToggleButtonGroup
+                            color="primary"
+                            value={navigation}
+                            exclusive
+                            onChange={handleNavigation}
+                            aria-label="navigation"
+                        >
+                            <ToggleButton value="employees" aria-label="employees" component={Link} to="/employees" >
+                                <WorkIcon />
+                                <Typography
+                                    sx={{ ml: 1 }}
+                                    fontWeight="bold"
+                                    variant="body2"
+                                >
+                                    Manage Employees
+                                </Typography>
+                            </ToggleButton>
+                            <ToggleButton value="departments" aria-label="departments" component={Link} to="/departments">
+                                <BusinessIcon />
+                                <Typography
+                                    sx={{ ml: 1 }}
+                                    fontWeight="bold"
+                                    variant="body2"
+                                >
+                                    Manage Departments
+                                </Typography>
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Box>
+
+                    <Routes>
+                        <Route path="/" element={<EmployeeComponent />} />
+                        <Route path="/employees" element={<EmployeeComponent />} />
+                        <Route path="/departments" element={<DepartmentComponent />} />
+                    </Routes>
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
-
-
-    //const [forecasts, setForecasts] = useState();
-
-    //useEffect(() => {
-    //    populateWeatherData();
-    //}, []);
-
-    //const contents = forecasts === undefined
-    //    ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-    //    : <table className="table table-striped" aria-labelledby="tableLabel">
-    //        <thead>
-    //            <tr>
-    //                <th>Date</th>
-    //                <th>Temp. (C)</th>
-    //                <th>Temp. (F)</th>
-    //                <th>Summary</th>
-    //            </tr>
-    //        </thead>
-    //        <tbody>
-    //            {forecasts.map(forecast =>
-    //                <tr key={forecast.date}>
-    //                    <td>{forecast.date}</td>
-    //                    <td>{forecast.temperatureC}</td>
-    //                    <td>{forecast.temperatureF}</td>
-    //                    <td>{forecast.summary}</td>
-    //                </tr>
-    //            )}
-    //        </tbody>
-    //    </table>;
-
-    //return (
-    //    <div>
-    //        <h1 id="tableLabel">Weather forecast</h1>
-    //        <p>This component demonstrates fetching data from the server.</p>
-    //        {contents}
-    //    </div>
-    //);
-    
-    //async function populateWeatherData() {
-    //    const response = await fetch('weatherforecast');
-    //    if (response.ok) {
-    //        const data = await response.json();
-    //        setForecasts(data);
-    //    }
-    //}
 }
 
 export default App;
